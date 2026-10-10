@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/infrastructure/database/prisma/generated"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  name         String?
+  password     String
+  role         Role          @default(USER)
+  isActive     Boolean       @default(true) @map("ativo")
+  isBlocked    Boolean       @default(false) @map("bloqueado")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  blockReasons BlockReason[]
+
+  @@map("app_users")
+}
+
+/// Histórico de bloqueios: cada bloqueio registra o motivo.
+model BlockReason {
+  id        String   @id @default(uuid())
+  userId    String   @map("id_user")
+  reason    String   @map("motivo")
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("motivos")
+}

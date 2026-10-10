@@ -1,0 +1,164 @@
+Arquitura dirigida a:
+- Alta escalabilidade
+- Baixo acoplamento
+- Alta coesão
+- Facilidade de testes
+- Facilidade de onboarding
+- Padronização rigorosa de nomenclatura
+- Preparada para crescer sem virar monolito bagunçado
+
+BASE:
+- Node.js + Express
+- Arquitetura em Camadas + Clean Architecture
+- Separação por Domínio (feature-first)
+- SOLID
+- Princípio da Inversão de Dependência
+- Repository Pattern
+- Service Layer Pattern
+- DTO Pattern
+- Factory Pattern
+- Centralização de erros
+
+ARQUITETURA
+Camada          - Responsabilidade
+Controller      - Lida com HTTP
+Service         - Regras de negócio
+Repository      - Acesso a dados
+Domain          - Entidades e contratos
+Infrastructure  - Implementações técnicas
+Shared          - Código reutilizável
+
+NOMENCLATURA
+<feature>.<tipo>.ts
+Ex:
+user.controller.ts
+user.service.ts
+
+Classes sempre PascalCase
+Ex:
+UserController
+UserService
+
+Variáveis sempre CamelCase
+Ex:
+userRepository
+createUserDto
+
+Constants sempre UPPER_SNAKE_CASE
+MAX_LOGIN_ATTEMPTS
+DEFAULT_PAGE_SIZE
+JWT_SECRET
+
+NODEJS ESTRUTURA DE PASTAS
+src/
+│
+├── app/
+│   ├── controllers/
+│   │   └── user.controller.ts
+│   │
+│   ├── dtos/
+│   │   └── user.dto.ts
+│   │
+│   ├── services/
+│   │   └── user.service.ts
+│   │
+│   ├── repositories/
+│   │   └── user.repository.ts
+│   │
+│   ├── validators/
+│   │   └── user.validator.ts
+│   │
+│   ├── mappers/
+│   │   └── user.mapper.ts
+│   │
+│   └── routes/
+│       └── user.routes.ts
+│
+├── domain/
+│   ├── entities/
+│   │   └── user.entity.ts
+│   │
+│   ├── interfaces/
+│   │   └── user.repository.interface.ts
+│   │
+│   └── errors/
+│       └── domain.error.ts
+│
+├── infrastructure/
+│   ├── database/
+│   │   ├── connection.ts
+│   │   └── prisma/
+│   │
+│   ├── repositories/
+│   │   └── user.prisma.repository.ts
+│   │
+│   └── providers/
+│       └── hash.provider.ts
+│
+├── shared/
+│   ├── middlewares/
+│   │   ├── error.middleware.ts
+│   │   └── auth.middleware.ts
+│   │
+│   ├── utils/
+│   │   └── date.util.ts
+│   │
+│   ├── constants/
+│   │   └── http-status.ts
+│   │
+│   └── config/
+│       └── env.config.ts
+│
+├── main/
+│   ├── server.ts
+│   ├── app.ts
+│   └── routes.ts
+│
+└── tests/
+
+FLUXO DE EXECUÇÃO
+Route → Controller → Service → Repository → Database
+
+Controller NUNCA acessa banco.
+Service NUNCA conhece Express.
+Repository NUNCA conhece HTTP.
+
+CLASSES
+UserController
+UserService
+UserRepository
+CreateUserDto
+UserEntity
+
+MÉTODOS
+Sempre camelCase e iniciando com verbo:
+Controller
+createUser()
+getUserById()
+updateUser()
+deleteUser()
+listUsers()
+
+SERVICE
+create()
+findById()
+update()
+delete()
+findAll()
+
+REPOSITORY
+save()
+findById()
+findAll()
+update()
+delete()
+
+ROTAS
+User com os verbos 
+post            createUser      
+get             getUsers        privada
+get             getUser         privada
+delete          deleteUser      privada
+update ou path  updateUser      privada
+post            signin          
+post            signup          privada

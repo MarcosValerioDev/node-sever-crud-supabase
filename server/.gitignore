@@ -1,0 +1,9 @@
+node_modules
+dist
+coverage
+
+# Keep environment variables out of version control
+.env
+
+# Prisma Client gerado (rodar `npm run prisma:generate`)
+/src/infrastructure/database/prisma/generated

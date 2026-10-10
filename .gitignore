@@ -1,0 +1,5 @@
+node_modules
+.env
+
+# Configurações locais do Claude Code
+.claude/settings.local.json
